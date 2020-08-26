@@ -9,6 +9,7 @@ server {
 
 client {
   enabled = true
+  servers = ["gaia:4647", "ark:4647"]
 }
 
 consul {
