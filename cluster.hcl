@@ -5,10 +5,14 @@ datacenter = "matinet"
 
 server {
   enabled = true
+  server_join {
+    retry_join = ["gaia:4648"]
+  }
 }
 
 client {
   enabled = true
+  servers = ["gaia:4647", "ark:4647"]
 }
 
 consul {
