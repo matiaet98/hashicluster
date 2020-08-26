@@ -13,8 +13,8 @@ client {
 
 consul {
   address = "localhost:8500"
-  server_service_name = "gaia-nomad"
-  client_service_name = "gaia-nomad-client"
+  server_service_name = "ark-nomad"
+  client_service_name = "ark-nomad-client"
   auto_advertise      = true
   server_auto_join    = true
   client_auto_join    = true
