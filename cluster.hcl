@@ -1,14 +1,18 @@
 log_level = "INFO"
-data_dir = "/data/gaia-nomad-server"
+log_rotate_bytes = 10485760 # 10MB
+data_dir = "/data/nomad"
 datacenter = "matinet"
 
 server {
-    enabled = true
-    bootstrap_expect = 1
+  enabled = true
+}
+
+client {
+  enabled = true
 }
 
 consul {
-  address = "gaia:8500"
+  address = "localhost:8500"
   server_service_name = "gaia-nomad"
   client_service_name = "gaia-nomad-client"
   auto_advertise      = true
