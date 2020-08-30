@@ -10,6 +10,10 @@ server {
 client {
   enabled = true
   servers = ["gaia:4647", "ark:4647"]
+  host_volume "pg_vol" {
+    path = "/mnt/storage1/Volumes/postgres"
+    read_only = false
+  }
 }
 
 consul {
