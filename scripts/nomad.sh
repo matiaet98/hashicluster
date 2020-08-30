@@ -1,13 +1,13 @@
 #!/bin/bash
 
 start() {
-  echo 'Starting Consul' >&2
-  consul agent -config-dir=/etc/consul.d &> /dev/null &
+  echo 'Starting Nomad…' >&2
+  nomad agent -config $(dirname $0)/../gaia.hcl &> /dev/null &
 }
 
 stop() {
   echo 'Stopping Nomad…' >&2
-  ps aux | grep consul | awk '{print $2}' | xargs kill &> /dev/null
+  ps aux | grep nomad | awk '{print $2}' | xargs kill &> /dev/null
   sleep 5
 }
 
