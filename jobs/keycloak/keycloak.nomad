@@ -27,11 +27,6 @@ job "keycloak" {
           http = 8080
         }
       }
-
-      constraint {
-        attribute = "${attr.unique.hostname}"
-        value     = "gaia"
-      }
       
       logs {
         max_files     = 5
@@ -45,7 +40,7 @@ job "keycloak" {
         DB_DATABASE="keycloak"
         DB_USER="keycloak"
         DB_PASSWORD="keycloak"
-        KEYCLOAK_HOSTNAME="gaia.matinet.org"
+        #KEYCLOAK_HOSTNAME="${attr.unique.hostname}.matinet.org"
         KEYCLOAK_ALWAYS_HTTPS=false
       }
       template {
@@ -73,7 +68,7 @@ job "keycloak" {
         check {
           name     = "alive"
           type     = "http"
-          path     = "/"
+          path     = "/auth"
           interval = "20s"
           timeout  = "10s"
         }

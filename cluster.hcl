@@ -10,8 +10,8 @@ server {
 client {
   enabled = true
   servers = ["gaia:4647", "ark:4647"]
-  host_volume "pg_vol" {
-    path = "/mnt/storage1/Volumes/postgres"
+  host_volume "postgres-vol" {
+    path = "/volume/keycloak/postgres-vol"
     read_only = false
   }
 }

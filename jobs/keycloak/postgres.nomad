@@ -4,6 +4,12 @@ job "keycloak-postgres" {
   
   group "keycloak-postgres" {
     count = 1
+
+    volume "postgres-vol" {
+      type      = "host"
+      read_only = false
+      source    = "postgres-vol"
+    }
     
     restart {
       attempts = 5
@@ -12,25 +18,25 @@ job "keycloak-postgres" {
       mode = "fail"
     }
     
-    ephemeral_disk {
-      migrate = true
-      size = 200
-      sticky = true
-    }
-    
     task "postgres" {
       driver = "docker"
       
-      constraint {
-        attribute = "${attr.unique.hostname}"
-        value     = "gaia"
-      }
-
       config {
         image = "postgres:12-alpine"
         port_map {
           db = 5432
         }
+      }
+
+      constraint {
+        attribute = "${attr.unique.hostname}"
+        value     = "gaia"
+      }
+
+      volume_mount {
+        volume      = "postgres-vol"
+        destination = "/var/lib/postgresql/data"
+        read_only   = false
       }
       
       logs {
@@ -51,6 +57,7 @@ job "keycloak-postgres" {
           port "db" {}
         }
       }
+
       service {
         name = "keycloak-postgres"
         port = "db"
