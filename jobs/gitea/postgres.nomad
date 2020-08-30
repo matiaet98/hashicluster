@@ -1,14 +1,14 @@
-job "keycloak-postgres" {
+job "gitea-postgres" {
   datacenters = ["matinet"]
   type = "service"
   
-  group "keycloak-postgres" {
+  group "gitea-postgres" {
     count = 1
 
-    volume "keycloak-postgres-vol" {
+    volume "gitea-postgres-vol" {
       type      = "host"
       read_only = false
-      source    = "keycloak-postgres-vol"
+      source    = "gitea-postgres-vol"
     }
     
     restart {
@@ -34,7 +34,7 @@ job "keycloak-postgres" {
       }
 
       volume_mount {
-        volume      = "keycloak-postgres-vol"
+        volume      = "gitea-postgres-vol"
         destination = "/var/lib/postgresql/data"
         read_only   = false
       }
@@ -45,9 +45,9 @@ job "keycloak-postgres" {
       }
 
       env {
-        POSTGRES_DB = "keycloak"
-        POSTGRES_USER = "keycloak"
-        POSTGRES_PASSWORD = "keycloak"
+        POSTGRES_DB = "gitea"
+        POSTGRES_USER = "gitea"
+        POSTGRES_PASSWORD = "gitea"
       }
 
       resources {
@@ -59,7 +59,7 @@ job "keycloak-postgres" {
       }
 
       service {
-        name = "keycloak-postgres"
+        name = "gitea-postgres"
         port = "db"
         check {
           type     = "tcp"

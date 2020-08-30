@@ -1,8 +1,8 @@
-job "keycloak" {
+job "gitea" {
   datacenters = ["matinet"]
   type = "service"
-  
-  group "keycloak" {
+
+  group "gitea" {
     count = 1
     
     restart {
@@ -11,63 +11,65 @@ job "keycloak" {
       delay = "15s"
       mode = "fail"
     }
-    
-    ephemeral_disk {
-      migrate = true
-      size = 200
-      sticky = true
-    }
-    
-    task "keycloak" {
+
+    task "gitea" {
       driver = "docker"
-      
       config {
-        image = "quay.io/keycloak/keycloak:11.0.1"
+        image = "gitea/gitea:latest"
         port_map {
-          http = 8080
+          http = 3000
+          ssh = 22
         }
+        volumes = [
+          "/etc/timezone:/etc/timezone",
+          "/etc/localtime:/etc/localtime"
+        ]
       }
-      
+
       logs {
         max_files     = 5
         max_file_size = 10
       }
 
       env {
-        KEYCLOAK_USER="keycloak"
-        KEYCLOAK_PASSWORD="keycloak"
-        DB_VENDOR="postgres"
-        DB_DATABASE="keycloak"
-        DB_USER="keycloak"
-        DB_PASSWORD="keycloak"
-        KEYCLOAK_ALWAYS_HTTPS=false
+        USER_UID = "1000"
+        USER_GID = "1000"
+        DB_TYPE = "postgres"
+        DB_NAME = "gitea"
+        DB_USER = "gitea"
+        DB_PASSWD = "gitea"
+        #DB_HOST = "10.0.0.2:24183"
       }
+      
       template {
         data = <<EOH
-        DB_ADDR = "{{ range service "keycloak-postgres" }}{{ .Address }}{{ end }}"
-        DB_PORT="{{ range service "keycloak-postgres" }}{{ .Port }}{{ end }}"
+        DB_HOST="{{ range service "gitea-postgres" }}{{ .Address }}:{{ .Port }}{{ end }}"
         EOH
-        destination = "keycloak-postgres.env"
+        destination = "gitea-postgres.env"
         env         = true
       }
 
       resources {
         cpu    = 2000
-        memory = 2048
+        memory = 256
         network {
           port "http" {
-            static = 8080
+            static = 3000
+          },
+          port "ssh" {
+            static = 2222
           }
         }
       }
+      
       service {
-        name = "keycloak"
+        name = "gitea"
         tags = ["urlprefix-/"]
         port = "http"
         check {
           name     = "alive"
           type     = "http"
-          path     = "/auth"
+          path     = "/"
           interval = "20s"
           timeout  = "10s"
         }
@@ -78,6 +80,11 @@ job "keycloak" {
   constraint {
     attribute = "${attr.kernel.name}"
     value     = "linux"
+  }
+
+  constraint {
+    attribute = "${attr.unique.hostname}"
+    value     = "gaia"
   }
 
   update {
@@ -94,6 +101,6 @@ job "keycloak" {
     health_check = "checks"
     min_healthy_time = "10s"
     healthy_deadline = "5m"
-  }  
+  }
+ 
 }
-

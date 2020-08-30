@@ -10,8 +10,14 @@ server {
 client {
   enabled = true
   servers = ["gaia:4647", "ark:4647"]
-  host_volume "postgres-vol" {
+  
+  host_volume "keycloak-postgres-vol" {
     path = "/volume/keycloak/postgres-vol"
+    read_only = false
+  }
+
+  host_volume "gitea-postgres-vol" {
+    path = "/volume/gitea/postgres-vol"
     read_only = false
   }
 }
@@ -23,4 +29,15 @@ consul {
   auto_advertise      = true
   server_auto_join    = true
   client_auto_join    = true
+}
+
+plugin "docker" {
+  config {    
+    volumes {
+      enabled      = true
+      selinuxlabel = "z"
+    }
+    allow_privileged = true
+    allow_caps = ["ALL"]
+  }
 }
