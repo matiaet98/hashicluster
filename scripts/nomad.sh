@@ -2,7 +2,7 @@
 
 start() {
   echo 'Starting Nomad…' >&2
-  nomad agent -config $(dirname $0)/../gaia.hcl &> /dev/null &
+  nomad agent -config $(dirname $0)/../$(hostname).hcl &> /dev/null &
 }
 
 stop() {

@@ -5,6 +5,9 @@ datacenter = "matinet"
 
 server {
   enabled = true
+  bootstrap_expect = 1
+  node_gc_threshold = "30m"
+  job_gc_threshold = "5m"
 }
 
 client {

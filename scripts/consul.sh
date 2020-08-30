@@ -6,7 +6,7 @@ start() {
 }
 
 stop() {
-  echo 'Stopping Nomad…' >&2
+  echo 'Stopping Consul' >&2
   ps aux | grep consul | awk '{print $2}' | xargs kill &> /dev/null
   sleep 5
 }
