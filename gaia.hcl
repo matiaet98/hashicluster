@@ -1,3 +1,5 @@
+# Full configuration options can be found at https://www.nomadproject.io/docs/configuration
+
 log_level = "INFO"
 log_rotate_bytes = 10485760 # 10MB
 data_dir = "/data/nomad"
@@ -27,7 +29,7 @@ client {
 
 consul {
   address = "gaia.matinet.org:8500"
-  server_service_name = "gaia-nomad"
+  server_service_name = "gaia-nomad-server"
   client_service_name = "gaia-nomad-client"
   auto_advertise      = true
   server_auto_join    = true
