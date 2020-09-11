@@ -45,7 +45,7 @@ job "keycloak" {
       template {
         data = <<EOH
         DB_ADDR = "{{ range service "keycloak-postgres" }}{{ .Address }}{{ end }}"
-        DB_PORT="{{ range service "keycloak-postgres" }}{{ .Port }}{{ end }}"
+        DB_PORT = "{{ range service "keycloak-postgres" }}{{ .Port }}{{ end }}"
         EOH
         destination = "keycloak-postgres.env"
         env         = true
