@@ -1,23 +1,23 @@
 log_level = "INFO"
 log_rotate_bytes = 10485760 # 10MB
-data_dir = "/data/nomad"
+data_dir = "/opt/nomad"
 datacenter = "matinet"
 
-#server {
-#  enabled = true
-#  server_join {
-#    retry_join = ["gaia.matinet.org:4648"]
-#  }
-#}
+server {
+  enabled = true
+  bootstrap_expect = 1
+  node_gc_threshold = "30m"
+  job_gc_threshold = "5m"
+}
 
 client {
   enabled = true
-  servers = ["gaia.matinet.org:4647"]
+  servers = ["localhost:4647"]
 }
 
 consul {
-  address = "ark.matinet.org:8500"
-  server_service_name = "ark-nomad"
+  address = "localhost:8500"
+  server_service_name = "ark-nomad-server"
   client_service_name = "ark-nomad-client"
   auto_advertise      = true
   server_auto_join    = true
@@ -34,3 +34,4 @@ plugin "docker" {
     allow_caps = ["ALL"]
   }
 }
+

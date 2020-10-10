@@ -1,0 +1,17 @@
+[Unit]
+Description="HashiCorp Nomad - A service mesh solution"
+Documentation=https://www.nomad.io/
+Requires=consul.service
+After=consul.service
+ConditionFileNotEmpty=/etc/nomad.d/nomad.hcl
+
+[Service]
+ExecStart=/usr/local/bin/nomad agent -config=/etc/nomad.d/
+ExecReload=/usr/local/bin/nomad reload
+KillMode=process
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+

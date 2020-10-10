@@ -1,0 +1,9 @@
+datacenter = "matinet"
+data_dir = "/opt/consul"
+log_level = "INFO"
+node_name = "ark"
+server = true
+client_addr = "0.0.0.0"
+bind_addr = "10.0.0.116"
+ui = true
+bootstrap_expect = 1
