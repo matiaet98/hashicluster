@@ -4,13 +4,7 @@ job "keycloak-postgres" {
   
   group "keycloak-postgres" {
     count = 1
-
-    volume "keycloak-postgres-vol" {
-      type      = "host"
-      read_only = false
-      source    = "keycloak-postgres-vol"
-    }
-    
+  
     restart {
       attempts = 5
       interval = "30m"
@@ -30,13 +24,7 @@ job "keycloak-postgres" {
 
       constraint {
         attribute = "${attr.unique.hostname}"
-        value     = "gaia"
-      }
-
-      volume_mount {
-        volume      = "keycloak-postgres-vol"
-        destination = "/var/lib/postgresql/data"
-        read_only   = false
+        value     = "ark"
       }
       
       logs {

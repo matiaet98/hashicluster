@@ -13,7 +13,7 @@ job "fabio" {
         cpu    = 500
         memory = 128
         network {
-          #mbits = 20
+          mbits = 20
           port "lb" {
             static = 9999
           }
